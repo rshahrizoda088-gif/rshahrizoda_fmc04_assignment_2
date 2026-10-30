@@ -1,41 +1,45 @@
-below_range = 0
-in_range = 0
-above_range = 0
-total_width = 0 
+def replace_value(values, index, new_value):
+    values[index] = new_value
+    return None 
 
-def classify(value):
-    if value < 98:
-        return "Below range"
-    elif 98 <= value <= 102:
-        return "In range"
-    else:
-        return "Above range"   
+def find_first(values, target):
+    for i in range(len(values)):
+        if values[i] == target:
+            return i
+    return -1    
 
-def calculate_average(total, count):
-    return total / count
+def summarize(values):
+    stats_record = (min(values), max(values), sum(values))
+    return stats_record
 
-tiles = int(input("Enter the number of tiles: "))
+days = int(input("Enter the number of days: ")) 
+original = []
 
-for i in range(tiles):
-    width = int(input("Enter the width for tile : "))
-    total_width += width
-    
+for _ in range(days):
+    minutes = int(input("Enter reading time in minutes: "))
+    original.append(minutes)
 
-    category = classify(width)
-    print(category)
-  
-    if category == "Below range":
-        below_range += 1
-    elif category == "In range":
-        in_range += 1
-    elif category == "Above range":
-        above_range += 1
+updated = original[:]
 
-average_width = total_width / tiles
+index = int(input("Enter the index to correct: "))
+new_time = int(input("Enter the new reading time: "))
+replace_value(updated, index, new_time)
+target = int(input("Enter the reading time to search for: "))
+first_index = find_first(updated, target)
 
-print(f"Total width: {total_width} g")
-print(f"Average width: {average_width} g ")
+match_count = updated.count(target)
 
-print(f"Below range: {below_range}")
-print(f"In range: {in_range}")
-print(f"Above range: {above_range}")
+minimum, maximum, total = summarize(updated)
+sorted_list = sorted(updated)
+
+print(f"Original: {original}")
+print(f"Updated: {updated}")
+print(f"Sorted: {sorted_list}")
+print(f"Minimum reading time: {minimum} minutes")
+print(f"Maximum reading time: {maximum} minutes")
+print(f"Total reading time: {total} minutes")
+if first_index == -1:
+    print("Target not found")
+else:
+    print(f"First matching index: {first_index}")
+print(f"Matching values: {match_count}")
